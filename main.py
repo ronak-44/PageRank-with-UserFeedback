@@ -7,7 +7,7 @@ from optparse import OptionParser
 import numpy as np
 import os
 
-
+'''
 def output_HITS(iteration, graph, result_dir, fname):
     authority_fname = '_HITS_authority.txt'
     hub_fname = '_HITS_hub.txt'
@@ -25,7 +25,7 @@ def output_HITS(iteration, graph, result_dir, fname):
     print()
     np.savetxt(os.path.join(path, fname + hub_fname), hub_list, fmt='%.3f', newline=" ")
 
-
+'''
 def output_PageRank(iteration, graph, damping_factor, result_dir, fname):
     pagerank_fname = '_PageRank.txt'
 
@@ -38,7 +38,7 @@ def output_PageRank(iteration, graph, damping_factor, result_dir, fname):
     os.makedirs(path, exist_ok=True)
     np.savetxt(os.path.join(path, fname + pagerank_fname), pagerank_list, fmt='%.3f', newline=" ")
 
-
+'''
 def output_SimRank(iteration, graph, decay_factor, result_dir, fname):
     simrank_fname = '_SimRank.txt'
 
@@ -51,7 +51,7 @@ def output_SimRank(iteration, graph, decay_factor, result_dir, fname):
     os.makedirs(path, exist_ok=True)
     np.savetxt(os.path.join(path, fname + simrank_fname), ans, delimiter=' ', fmt='%.3f')
 
-
+'''
 if __name__ == '__main__':
 
     optparser = OptionParser()
@@ -86,8 +86,8 @@ if __name__ == '__main__':
     fname = file_path.split('/')[-1].split('.')[0]
 
     graph = init_graph(file_path)
-    sim = Similarity(graph, decay_factor)
+    #sim = Similarity(graph, decay_factor)
 
-    output_HITS(iteration, graph, result_dir, fname)
+    #output_HITS(iteration, graph, result_dir, fname)
     output_PageRank(iteration, graph, damping_factor, result_dir, fname)
-    output_SimRank(iteration, graph, decay_factor, result_dir, fname)
+    #output_SimRank(iteration, graph, decay_factor, result_dir, fname)

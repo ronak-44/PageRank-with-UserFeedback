@@ -4,6 +4,7 @@ import numpy as np
 class Graph:
     def __init__(self):
         self.nodes = []
+        self.track=[0,1,2,3,4,5]
 
     def contains(self, name):
         for node in self.nodes:
@@ -33,7 +34,7 @@ class Graph:
 
     def sort_nodes(self):
         self.nodes.sort(key=lambda node: int(node.name))
-
+    '''
     def display_hub_auth(self):
         for node in self.nodes:
             print(f'{node.name}  Auth: {node.old_auth}  Hub: {node.old_hub}')
@@ -46,22 +47,34 @@ class Graph:
             node.auth /= auth_sum
             node.hub /= hub_sum
 
+    def get_auth_hub_list(self):
+        auth_list = np.asarray([node.auth for node in self.nodes], dtype='float32')
+        hub_list = np.asarray([node.hub for node in self.nodes], dtype='float32')
+
+        return np.round(auth_list, 3), np.round(hub_list, 3)
+    '''
     def normalize_pagerank(self):
         pagerank_sum = sum(node.pagerank for node in self.nodes)
 
         for node in self.nodes:
             node.pagerank /= pagerank_sum
 
-    def get_auth_hub_list(self):
-        auth_list = np.asarray([node.auth for node in self.nodes], dtype='float32')
-        hub_list = np.asarray([node.hub for node in self.nodes], dtype='float32')
-
-        return np.round(auth_list, 3), np.round(hub_list, 3)
 
     def get_pagerank_list(self):
         pagerank_list = np.asarray([node.pagerank for node in self.nodes], dtype='float32')
         return np.round(pagerank_list, 3)
 
+    def userfeedback(self):
+        for pos,node in enumerate(self.track):
+            print(pos,"\t",self.nodes[node])
+        val = input('Enter Feedback \n')
+        return self.track[int(val)]
+
+    def update_track(self,ranked):
+        self.track.sort(key=dict(zip(self.track,ranked)).get)
+        print('TRACK---')
+        self.track.reverse()
+        print(self.track)
 
 class Node:
     def __init__(self, name):
@@ -79,19 +92,20 @@ class Node:
         self.children.append(new_child)
 
     def link_parent(self, new_parent):
+
         for parent in self.parents:
             if(parent.name == new_parent.name):
                 return None
         self.parents.append(new_parent)
-
+    '''
     def update_auth(self):
         self.auth = sum(node.hub for node in self.parents)
 
     def update_hub(self):
         self.hub = sum(node.auth for node in self.children)
-
+    '''
     def update_pagerank(self, d, n):
         in_neighbors = self.parents
         pagerank_sum = sum((node.pagerank / len(node.children)) for node in in_neighbors)
         random_jumping = d / n
-        self.pagerank = random_jumping + (1-d) * pagerank_sum
+        self.pagerank = random_jumping + (1-d) * (pagerank_sum)
